@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical protector AI</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+.sidebar {
+    position: fixed;
+    width: 230px;
+    height: 100vh;
+    background: #101827;
+    color: white;
+    padding: 25px 18px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: #2dd4bf;
+    color: #09201d;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo h2 {
+    font-size: 19px;
+}
+
+.logo p {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #8fa1b9;
+}
+
+nav a {
+    display: block;
+    color: #9aa9bc;
+    text-decoration: none;
+    padding: 12px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+nav a:hover,
+nav a.active {
+    background: #1d2a3d;
+    color: white;
+}
+
+.demo {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+    padding: 14px;
+    background: #182538;
+    border-radius: 10px;
+    font-size: 11px;
+    color: #9aa9bc;
+    line-height: 1.5;
+}
+
+.demo strong {
+    color: white;
+}
+
+main {
+    margin-left: 230px;
+    padding: 30px 40px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #72839b;
+    font-weight: bold;
+}
+
+.header h1 {
+    font-size: 30px;
+    margin-top: 5px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.primary {
+    background: #0f766e;
+    border: none;
+    color: white;
+    padding: 11px 17px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.primary:hover {
+    background: #0b625c;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.card span {
+    font-size: 10px;
+    color: #72839b;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.card h2 {
+    font-size: 27px;
+    margin: 10px 0;
+}
+
+.card small {
+    color: #0b8b74;
+}
+
+.card .warning {
+    color: #d97706;
+}
+
+.audit {
+    display: grid;
+    grid-template-columns: 1.3fr .7fr;
+    gap: 20px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 18px;
+}
+
+.audit h2 {
+    margin: 5px 0 20px;
+}
+
+.upload {
+    border: 2px dashed #bdc9d8;
+    border-radius: 10px;
+    padding: 22px;
+    text-align: center;
+    background: #fafbfd;
+}
+
+.upload h3 {
+    margin-bottom: 7px;
+}
+
+.upload p {
+    color: #7b899c;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.upload input {
+    display: none;
+}
+
+.secondary {
+    padding: 9px 14px;
+    background: white;
+    border: 1px solid #d5deea;
+    border-radius: 7px;
+}
+
+#fileName {
+    display: block;
+    margin-top: 8px;
+    color: #7b899c;
+    font-size: 11px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+    margin-top: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 11px;
+    color: #596b83;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d7dfeb;
+    border-radius: 7px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #0f766e;
+}
+
+.full {
+    width: 100%;
+    margin-top: 17px;
+}
+
+.result {
+    background: #101827;
+    color: white;
+    border-radius: 10px;
+    padding: 23px;
+    text-align: center;
+}
+
+.result .label {
+    color: #8295ad;
+}
+
+.risk-circle {
+    width: 140px;
+    height: 140px;
+    margin: 25px auto 15px;
+    border: 8px solid #34445b;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.risk-circle strong {
+    font-size: 42px;
+}
+
+.risk-circle span {
+    font-size: 11px;
+    color: #8497ae;
+    margin-top: 28px;
+}
+
+.result p {
+    color: #9eafc4;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+
+.meter {
+    width: 100%;
+    height: 8px;
+    background: #26364b;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+#riskMeter {
+    width: 0;
+    height: 100%;
+    background: #2dd4bf;
+    display: block;
+    transition: .5s;
+}
+
+.flags {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.flag {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    gap: 10px;
+    padding: 10px;
+    background: #182538;
+    border-radius: 7px;
+    font-size: 11px;
+}
+
+.flag b {
+    color: #f7b955;
+}
+
+.empty {
+    color: #8295ad;
+    font-size: 12px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 18px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.panel h2 {
+    margin-top: 5px;
+}
+
+.clear {
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid #d5deea;
+    border-radius: 7px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+th {
+    color: #7b8ba0;
+    font-size: 10px;
+}
+
+.badge {
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.high {
+    background: #fff0ef;
+    color: #c24135;
+}
+
+.medium {
+    background: #fff7df;
+    color: #a16207;
+}
+
+.low {
+    background: #eaf9f5;
+    color: #087f6e;
+}
+
+.insights {
+    display: grid;
+    grid-template-columns: 1.3fr .7fr;
+    gap: 25px;
+}
+
+.insights p {
+    color: #65768c;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 10px;
+}
+
+.info-box {
+    background: #f5f8fc;
+    border-radius: 10px;
+    padding: 18px;
+}
+
+.info-box strong {
+    display: block;
+    margin: 8px 0;
+}
+
+.info-box small {
+    color: #718198;
+    line-height: 1.5;
+}
+
+footer {
+    text-align: center;
+    color: #91a0b3;
+    font-size: 11px;
+    padding: 15px;
+}
+
+@media (max-width: 950px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+    }
+
+    .demo {
+        display: none;
+    }
+
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .audit,
+    .insights {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 550px) {
+    .stats,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        gap: 10px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    main {
+        padding: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">+</div>
+        <div>
+            <h2>Medical protector</h2>
+            <p>AI AUDITOR</p>
+        </div>
+    </div>
+
+    <nav>
+        <a href="#dashboard" class="active">▦ Dashboard</a>
+        <a href="#audit">◈ New Audit</a>
+        <a href="#history">◷ Audit History</a>
+        <a href="#insights">⌁ Insights</a>
+    </nav>
+
+    <div class="demo">
+        <strong>Demo Mode</strong>
+        <p>This portfolio version uses a rule-based fraud-risk engine.</p>
+    </div>
+
+</aside>
+
+<main>
+
+    <header class="header">
+        <div>
+            <div class="label">MEDICAL BILL INTELLIGENCE</div>
+            <h1>Audit Dashboard</h1>
+        </div>
+
+        <button class="primary" onclick="scrollToAudit()">
+            + New Audit
+        </button>
+    </header>
+
+    <section id="dashboard" class="stats">
+
+        <div class="card">
+            <span>BILLS AUDITED</span>
+            <h2 id="billsAudited">1248</h2>
+            <small>+12% this month</small>
+        </div>
+
+        <div class="card">
+            <span>SUSPICIOUS BILLS</span>
+            <h2 id="suspiciousBills">87</h2>
+            <small class="warning">Needs review</small>
+        </div>
+
+        <div class="card">
+            <span>AVERAGE RISK</span>
+            <h2 id="averageRisk">7.2%</h2>
+            <small>Across all audits</small>
+        </div>
+
+        <div class="card">
+            <span>REVIEWED</span>
+            <h2 id="reviewed">1161</h2>
+            <small>92.9% cleared</small>
+        </div>
+
+    </section>
+
+    <section id="audit" class="audit">
+
+        <div>
+
+            <div class="label">NEW AUDIT</div>
+            <h2>Analyze a Medical Bill</h2>
+
+            <form id="auditForm">
+
+                <div class="upload">
+
+                    <h3>Upload Bill Document</h3>
+                    <p>PDF, CSV or image</p>
+
+                    <input type="file" id="billFile"
+                           accept=".pdf,.csv,.png,.jpg,.jpeg">
+
+                    <button type="button"
+                            class="secondary"
+                            onclick="document.getElementById('billFile').click()">
+                        Choose File
+                    </button>
+
+                    <small id="fileName">No file selected</small>
+
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Provider</label>
+                        <input type="text" id="provider"
+                               placeholder="CityCare Hospital" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Patient ID</label>
+                        <input type="text" id="patient"
+                               placeholder="P-1048" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Consultation (₹)</label>
+                        <input type="number" id="consultation"
+                               value="1000" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tests (₹)</label>
+                        <input type="number" id="tests"
+                               value="2500" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Medicines (₹)</label>
+                        <input type="number" id="medicines"
+                               value="3500" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Other Charges (₹)</label>
+                        <input type="number" id="other"
+                               value="500" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Test Quantity</label>
+                        <input type="number" id="testQty"
+                               value="2" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Medicine Quantity</label>
+                        <input type="number" id="medicineQty"
+                               value="3" min="0" required>
+                    </div>
+
+                </div>
+
+                <button class="primary full" type="submit">
+                    Run AI Audit →
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="result">
+
+            <div class="label">AUDIT RESULT</div>
+
+            <div class="risk-circle">
+                <strong id="riskScore">--</strong>
+                <span>/100</span>
+            </div>
+
+            <h2 id="riskLabel">Awaiting Bill</h2>
+
+            <p id="riskDescription">
+                Submit a medical bill to generate a risk assessment.
+            </p>
+
+            <div class="meter">
+                <span id="riskMeter"></span>
+            </div>
+
+            <div id="flags" class="flags">
+                <div class="empty">No findings yet.</div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="history" class="panel">
+
+        <div class="panel-header">
+
+            <div>
+                <div class="label">RECENT ACTIVITY</div>
+                <h2>Audit History</h2>
+            </div>
+
+            <button class="clear" onclick="clearHistory()">
+                Clear History
+            </button>
+
+        </div>
+
+        <div style="overflow-x:auto">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>BILL</th>
+                        <th>PROVIDER</th>
+                        <th>TOTAL</th>
+                        <th>RISK</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+
+                <tbody id="historyBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <section id="insights" class="panel insights">
+
+        <div>
+            <div class="label">PORTFOLIO PROJECT</div>
+            <h2>How MedGuard AI Works</h2>
+
+            <p>
+                MedGuard analyzes medical billing information
+                and calculates a risk score using different
+                anomaly indicators such as high charges,
+                unusual quantities and large bill amounts.
+            </p>
+        </div>
+
+        <div class="info-box">
+            <div class="label">RISK ENGINE</div>
+            <strong>Rules + Anomalies + Amount Checks</strong>
+            <small>
+                A production version can use a trained
+                machine-learning model instead of these
+                browser-based rules.
+            </small>
+        </div>
+
+    </section>
+
+    <footer>
+        MedGuard AI · Portfolio Project · Demo Only
+    </footer>
+
+</main>
+
+<script>
+
+let auditHistory = JSON.parse(
+    localStorage.getItem("medguardHistory")
+) || [];
+
+const $ = id => document.getElementById(id);
+
+$("billFile").addEventListener("change", function() {
+    const file = this.files[0];
+    $("fileName").textContent = file
+        ? file.name
+        : "No file selected";
+});
+
+function scrollToAudit() {
+    $("audit").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function calculateRisk(data) {
+    let score = 0;
+    let flags = [];
+
+    if (data.tests > 7000) {
+        score += 25;
+        flags.push([
+            "High test charges",
+            "Tests exceed demo benchmark"
+        ]);
+    }
+
+    if (data.medicines > 10000) {
+        score += 20;
+        flags.push([
+            "High medicine charges",
+            "Medicine cost is unusually high"
+        ]);
+    }
+
+    if (data.testQty >= 8) {
+        score += 20;
+        flags.push([
+            "Unusual test quantity",
+            "Test quantity is above threshold"
+        ]);
+    }
+
+    if (data.medicineQty >= 15) {
+        score += 15;
+        flags.push([
+            "Unusual medicine quantity",
+            "Medicine quantity is above threshold"
+        ]);
+    }
+
+    if (data.total > 25000) {
+        score += 15;
+        flags.push([
+            "High total amount",
+            "Total bill exceeds threshold"
+        ]);
+    }
+
+    if (data.other > data.total * 0.3) {
+        score += 10;
+        flags.push([
+            "Large other-charge share",
+            "Other charges are unusually high"
+        ]);
+    }
+
+    return {
+        score: Math.min(score, 100),
+        flags
+    };
+}
+
+function showResult(result) {
+    $("riskScore").textContent = result.score;
+    $("riskMeter").style.width = result.score + "%";
+
+    if (result.score >= 60) {
+        $("riskLabel").textContent = "High Risk";
+        $("riskDescription").textContent =
+            "Multiple suspicious billing patterns were detected. Manual review is recommended.";
+    } else if (result.score >= 30) {
+        $("riskLabel").textContent = "Needs Review";
+        $("riskDescription").textContent =
+            "Some unusual billing patterns were detected.";
+    } else {
+        $("riskLabel").textContent = "Low Risk";
+        $("riskDescription").textContent =
+            "No major anomalies were detected by the demo rules.";
+    }
+
+    if (result.flags.length === 0) {
+        $("flags").innerHTML =
+            '<div class="empty">✓ No major demo anomalies detected.</div>';
+        return;
+    }
+
+    $("flags").innerHTML = result.flags.map(flag => `
+        <div class="flag">
+            <b>⚠ ${flag[0]}</b>
+            <span>${flag[1]}</span>
+        </div>
+    `).join("");
+}
+
+$("auditForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const consultation = Number($("consultation").value);
+    const tests = Number($("tests").value);
+    const medicines = Number($("medicines").value);
+    const other = Number($("other").value);
+    const testQty = Number($("testQty").value);
+    const medicineQty = Number($("medicineQty").value);
+
+    const total =
+        consultation +
+        tests +
+        medicines +
+        other;
+
+    const bill = {
+        provider: $("provider").value,
+        patient: $("patient").value,
+        tests,
+        medicines,
+        other,
+        testQty,
+        medicineQty,
+        total
+    };
+
+    const result = calculateRisk(bill);
+
+    showResult(result);
+
+    auditHistory.unshift({
+        bill: "MG-" + String(Date.now()).slice(-6),
+        provider: bill.provider,
+        total: bill.total,
+        risk: result.score
+    });
+
+    auditHistory = auditHistory.slice(0, 10);
+
+    localStorage.setItem(
+        "medguardHistory",
+        JSON.stringify(auditHistory)
+    );
+
+    renderHistory();
+    updateStats();
+});
+
+function renderHistory() {
+    if (auditHistory.length === 0) {
+        $("historyBody").innerHTML = `
+            <tr>
+                <td colspan="5">No audits yet.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    $("historyBody").innerHTML =
+        auditHistory.map(item => {
+
+            let status;
+            let className;
+
+            if (item.risk >= 60) {
+                status = "High Risk";
+                className = "high";
+            } else if (item.risk >= 30) {
+                status = "Review";
+                className = "medium";
+            } else {
+                status = "Low Risk";
+                className = "low";
+            }
+
+            return `
+                <tr>
+                    <td>${item.bill}</td>
+                    <td>${item.provider}</td>
+                    <td>₹${item.total.toLocaleString("en-IN")}</td>
+                    <td>${item.risk}/100</td>
+                    <td>
+                        <span class="badge ${className}">
+                            ${status}
+                        </span>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+}
+
+function updateStats() {
+    $("billsAudited").textContent =
+        (1248 + auditHistory.length).toLocaleString();
+
+    $("suspiciousBills").textContent =
+        87 + auditHistory.filter(
+            item => item.risk >= 60
+        ).length;
+
+    if (auditHistory.length) {
+        const totalRisk = auditHistory.reduce(
+            (sum, item) => sum + item.risk,
+            0
+        );
+
+        $("averageRisk").textContent =
+            (totalRisk / auditHistory.length).toFixed(1) + "%";
+    }
+}
+
+function clearHistory() {
+    if (!confirm("Clear all audit history?")) {
+        return;
+    }
+
+    auditHistory = [];
+
+    localStorage.removeItem("medguardHistory");
+
+    renderHistory();
+    updateStats();
+
+    $("riskScore").textContent = "--";
+    $("riskLabel").textContent = "Awaiting Bill";
+    $("riskDescription").textContent =
+        "Submit a medical bill to generate a risk assessment.";
+    $("riskMeter").style.width = "0%";
+
+    $("flags").innerHTML =
+        '<div class="empty">No findings yet.</div>';
+}
+
+renderHistory();
+updateStats();
+
+</script>
+
+</body>
+</html>
